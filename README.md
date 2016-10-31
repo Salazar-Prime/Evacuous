@@ -21,21 +21,21 @@ parameters - some of which depend on the behavior of the local swarm, and some d
 Description of important files and folder:
 
 root folder :
+
 ●	main.py: This .py file draws a map network by calling map.py, updates car parameter by calling movement.py and draws the updated car position till all cars exit the window.
 
 ●	movement.py: updates the position and velocity of the car for the next frame. Various rules of boids are implemented here
 
 ./graphics: contains files for drawing the frame on screen
+
 ●	 resources.py which loads resources like car image from resources directory and map.py.
 
 ●	map.py: It contains a function- on_road, which given a point in map and road object will return True if the point is on the given road or else false. It also contains functions which draw roads, intersection.
 
 ./resources: Contains image of car.
 
-
-
-
 ./util: contains utility code accessible by all the other classes
+
 ●	functions.py: Contains basics funtions which are often used in other .py files like, slope of a vector, unit perperndicular to a vector, magnitude of a vector, dot produt between vectors, add; subtract; weighted add of two vectors, scale a vector and projection of one vector on an other.
 
 ●	objects.py: creates Map, Road, Junction, Car classes. 
