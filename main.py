@@ -34,16 +34,14 @@ params = ParameterSet(separation=1, communication_radius=1, scale_rule1=0.25)
 """Setting up GUI"""
 
 # creating window
-game_window = pyglet.window.Window(800, 600)
+WINWIDTH, WINHEIGHT = 800, 600
+game_window = pyglet.window.Window(WINWIDTH, WINHEIGHT)
 
 # Drawing the labels
 @game_window.event  # lets the Window instance know that on_draw() is an event handler
 def on_draw():
     draw_map(curmap,game_window)
     draw_cars(carsbatch)
-
-WINWIDTH, WINHEIGHT = 800, 600
-window = pyglet.window.Window(WINWIDTH, WINHEIGHT)
 
 if __name__ == "__main__":
     pyglet.app.run()

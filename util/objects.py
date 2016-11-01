@@ -27,7 +27,7 @@ class Road(object):
 
     # auto incrementing ID as a class variable
     auto_id = 0
-    default_width = 10.0
+    default_width = 30.0
 
     def __init__(self, start_junction, end_junction, width=None, road_id=None, *args, **kwargs):
         if not road_id:
@@ -62,11 +62,17 @@ class Map(object):
 class Car(pyglet.sprite.Sprite):
     """Car object, stores cars location and velocity"""
 
+    size = resources.car_image.width
+
     def __init__(self, x, y, vx, vy, car_id, road, *args, **kwargs):
         super(Car, self).__init__(x=x, y=y, img=resources.car_image, *args, **kwargs)
         self.velocity = self.vx, self.vy = vx, vy
         self.car_id = car_id
         self.cur_road = road
+        if functions.dot( (vx, vy), road.vector ) > 0:
+            self.next_junction = road.end_junction
+        else:
+            self.next_junction = road.start_junction
 
     def add_velocity(self, v):
         vx, vy = v
