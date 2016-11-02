@@ -45,11 +45,11 @@ def scale(a, k):
 
 def projection(a, b):
     """Projection of vector `a` on `b`"""
-    return dot(a, b)/magnitude(b)
+    return scale(b, dot(a, b)/magnitude(b)**2)
 
 def calc_y_on_circle(a,b,x,separation):
     """Calculates the y co-ordinate given x for circle (x-a)^2 + (y-b)^2 = (separation)^2"""
-    return math.sqrt((separation)^2 - (x-a)^2) + b
+    return math.sqrt((separation)**2 - (x-a)**2) + b,-math.sqrt((separation)**2 - (x-a)**2) + b
 
 def dist(a, b):
     """Calculate the euclidian distance between two points"""
