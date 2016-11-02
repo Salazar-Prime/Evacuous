@@ -5,12 +5,13 @@ from graphics.draw_frame import on_road
 
 # total_cars = 50;
 
-def global_assignment(params):   # Pass the object of class ParameterSet to this function
+def global_assignment(params):   
+    # Pass the object of class ParameterSet to this function
 	global separation, exit_communication_radius, communication_radius, scale_rule1
-	separation= params.separation
-	exit_communication_radius = params.exit_communication_radius
-	communication_radius = params.communication_radius
-	scale_rule1 = params.scale_rule1
+    separation= params.separation
+    exit_communication_radius = params.exit_communication_radius
+    communication_radius = params.communication_radius
+    scale_rule1 = params.scale_rule1
 
 
 def new_position(cars):
@@ -19,12 +20,11 @@ def new_position(cars):
     '''Add to car object "moving towards node" '''
     for i in range(total_cars):
         speed = dot(velocity, road)  # component of velocity in direction of road
-        if sub((cars.next_node.x, cars.next_node.y), (cars[i].x, cars[i].y)) > speed:  # distanceToNode > speed
+        if sub((cars.next_junction.x, cars.next_junction.y), (cars[i].x, cars[i].y)) > speed:  # distanceToNode > speed
             cars[i].x, cars[i].y = cars[i].x + speed, cars[i].y + speed
         else:
-            p = projection((cars[i].next_node.x, cars[i].next_node.y), cars[i].cur_road.vector)  '''# !!!!!!!!!!!!!correct this'''
+            p = projection((cars[i].next_junction.x, cars[i].next_junction.y), cars[i].cur_road.vector)  '''# !!!!!!!!!!!!!correct this'''
             cars[i].x, cars[i].y = cars[i].x + p, cars[i].y + p
-
 
 def handle_collision(cars):
     # remove collisions between cars
@@ -72,9 +72,9 @@ def update_velocity(cars):
         velo_add_rule1 = [0, 0]
 
         # if cars sees the exit then move the car towards exit with high speed
-        if car1.next_node.is_exit:
-            if dist((car1.x, car1.y), (car1.next_node.x, car1.next_node.y)) < exit_communication_radius:
-                car1.vx, car1.vy = sub((car1.next_node.x, car1.next_node.y), (car1.x, car1.y))
+        if car1.next_junction.is_exit:
+            if dist((car1.x, car1.y), (car1.next_junction.x, car1.next_junction.y)) < exit_communication_radius:
+                car1.vx, car1.vy = sub((car1.next_junction.x, car1.next_junction.y), (car1.x, car1.y))
                 continue
         for j in range(total_cars):
             car2 = cars[j]
