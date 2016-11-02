@@ -3,6 +3,10 @@ For midsem submission
 
 Authors: Varun Aggarwal, Arvind Roshan, PR Vaidyanathan
 
+Dependency: install pyglet for python 
+
+Status: There are few bug fix that are needed to be resilved regarding movement of cars properly
+
 This is a simulation based project aimed at implementing both serial and parallel versions of the evacuation simulation that we have developed. Goal is to significantly reduce the run time of simulation by parallelization.
 
 Scenario: 
