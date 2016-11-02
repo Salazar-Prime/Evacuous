@@ -16,23 +16,32 @@ def global_assignment(params):
     scale_rule1 = params.scale_rule1
 
 
+def next_state(cars):
+    #print "next_state"
+    new_position(cars)
+    handle_collision(cars)
+    update_velocity(cars)
+    #print "frame over"
+
 def new_position(cars):
     # update the position of the car with the current
+    #print "next_position"
     total_cars = len(cars)
     for i in range(total_cars):
         speed = projection((cars[i].vx, cars[i].vy), cars[i].cur_road.vector)  # velocity component in direction of road
-        distance_to_node = sub((cars.next_junction.x, cars.next_junction.y), (cars[i].x, cars[i].y))
+        distance_to_node = sub((cars[i].next_junction.x, cars[i].next_junction.y), (cars[i].x, cars[i].y))
 
-        if distance_to_node > speed:  # distanceToNode > speed
-            cars[i].x, cars[i].y = cars[i].x + speed, cars[i].y + speed
+        if magnitude(distance_to_node) > magnitude(speed):  # distanceToNode > speed
+            cars[i].x, cars[i].y = cars[i].x + speed[0], cars[i].y + speed[1]
         else:
             p = projection(distance_to_node, cars[i].cur_road.vector)
-            cars[i].x, cars[i].y = cars[i].x + p, cars[i].y + p
+            cars[i].x, cars[i].y = cars[i].x + p[0], cars[i].y + p[1]
 
 
 def handle_collision(cars):
     # remove collisions between cars
-    num_collide = 0
+    #print "handle_collision"
+    num_collide = 1
     total_cars = len(cars)
     while num_collide != 0:
         num_collide = 0
@@ -41,24 +50,38 @@ def handle_collision(cars):
         # find colliding cars
         for i in range(total_cars):
             for j in range(i + 1, total_cars):
-                if dist(i, j) < separation:
+                if dist(cars[i].position, cars[j].position) < separation:
                     # separation is allowed separation specified by UI sliders
+                    print "collision"
                     collide_pair.append((cars[i], cars[j]))
                     num_collide += 1
 
         # remove collisions
+        print len(collide_pair)
         for i in range(len(collide_pair)):
             car_reference = collide_pair[i][0]
             car_to_move = collide_pair[i][1]
 
             # moving the second car by distance = separation
-            car_on_road = False
-            while not (car_on_road):
+            #car_on_road = False
+            x, y = 0, 0
+            print "now handle"
+            while True:
                 # find random position for placing the car
                 x = random.uniform(car_reference.x - separation, car_reference.x + separation)
-                y = calc_y_on_circle(car_reference.x, car_reference.y, x, separation)
-                car_on_road = on_road(x, y, car_on_road.cur_road.road_id)  # function provided by aravind
-
+                y1,y2 = calc_y_on_circle(car_reference.x, car_reference.y, x, separation)
+                car_on_road_1 = on_road(x, y1, car_to_move.cur_road)  # function provided by aravind
+                car_on_road_2 = on_road(x, y2, car_to_move.cur_road)
+                print x, y1, y2, car_to_move.cur_road.start_junction.location, car_to_move.cur_road.end_junction.location
+                #break
+                if car_on_road_1:
+                    y =y1
+                    break
+                if car_on_road_2:
+                    y=y2
+                    break
+                #car_on_road = car_on_road_1  car_on_road_2
+            print "handled"
             # updating the velocity for 'car_to_move'
             car_to_move.vx = car_to_move.vx + (x - car_to_move.x)
             car_to_move.vy = car_to_move.vy + (y - car_to_move.y)
@@ -70,6 +93,7 @@ def handle_collision(cars):
 
 def update_velocity(cars):
     # update the velocity vector of each car for next frame
+    print "update_velocity"
     total_cars = len(cars)
     for i in range(total_cars):
         car1 = cars[i]  # first car
@@ -93,4 +117,4 @@ def update_velocity(cars):
                 velo_add_rule1[1] += car2.vy
 
             # updating velocity
-            car1.vx, car1.vy = add((car1.vx, car1.vy), scale(scale_rule1, velo_add_rule1))
+            car1.vx, car1.vy = add((car1.vx, car1.vy), scale(velo_add_rule1, scale_rule1))

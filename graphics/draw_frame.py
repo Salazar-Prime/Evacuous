@@ -46,12 +46,14 @@ def on_road(x, y, road):
 
     unit_len = (road.vector[0] / magnitude(road.vector), road.vector[1] / magnitude(road.vector))
     vec_pll = (dot(pt_rel, unit_len) * unit_len[0], dot(pt, unit_len) * unit_len[1])
+    #vec_pll = projection(pt_rel, road.vector)
     vec_perp = ((pt_rel[0] - vec_pll[0]), (pt_rel[1] - vec_pll[1]))
-    # condt = (a.width*z1/2, a.width*z2/2)
+    #vec_perp = sub(pt_rel, vec_pll)
+    ## condt = (a.width*z1/2, a.width*z2/2)
     # return 0
 
-    print magnitude(vec_pll), magnitude(road.vector), magnitude(vec_perp), (road.width / 2) * magnitude((z1, z2))
-    if (magnitude(vec_pll) <= magnitude(road.vector) and magnitude(vec_perp) <= (road.width / 2) * magnitude((z1, z2))):
+    #print magnitude(vec_pll), magnitude(road.vector), magnitude(vec_perp), (road.width / 2) * magnitude((z1, z2))
+    if (magnitude(vec_pll) <= magnitude(road.vector) and magnitude(vec_perp) <= (road.width / 2)):
         return True
     else:
         return False
