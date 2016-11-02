@@ -5,11 +5,12 @@ from graphics.draw_frame import on_road
 
 # total_cars = 50;
 
-# parameters are received from the Slider GUI
-separation = 1
-exit_communication_radius = 1
-communication_radius = 1
-scale_rule1 = 1
+def global_assignment(params):   # Pass the object of class ParameterSet to this function
+	global separation, exit_communication_radius, communication_radius, scale_rule1
+	separation= params.separation
+	exit_communication_radius = params.exit_communication_radius
+	communication_radius = params.communication_radius
+	scale_rule1 = params.scale_rule1
 
 
 def new_position(cars):
