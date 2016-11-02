@@ -4,11 +4,13 @@ from util.functions import *
 from graphics.draw_frame import on_road
 
 # total_cars = 50;
+separation, exit_communication_radius, communication_radius, scale_rule1 = 0, 0, 0, 0
 
-def global_assignment(params):   
+
+def global_assignment(params):
     # Pass the object of class ParameterSet to this function
-	global separation, exit_communication_radius, communication_radius, scale_rule1
-    separation= params.separation
+    global separation, exit_communication_radius, communication_radius, scale_rule1
+    separation = params.separation
     exit_communication_radius = params.exit_communication_radius
     communication_radius = params.communication_radius
     scale_rule1 = params.scale_rule1
@@ -17,14 +19,16 @@ def global_assignment(params):
 def new_position(cars):
     # update the position of the car with the current
     total_cars = len(cars)
-    '''Add to car object "moving towards node" '''
     for i in range(total_cars):
-        speed = dot(velocity, road)  # component of velocity in direction of road
-        if sub((cars.next_junction.x, cars.next_junction.y), (cars[i].x, cars[i].y)) > speed:  # distanceToNode > speed
+        speed = projection((cars[i].vx, cars[i].vy), cars[i].cur_road.vector)  # velocity component in direction of road
+        distance_to_node = sub((cars.next_junction.x, cars.next_junction.y), (cars[i].x, cars[i].y))
+
+        if distance_to_node > speed:  # distanceToNode > speed
             cars[i].x, cars[i].y = cars[i].x + speed, cars[i].y + speed
         else:
-            p = projection((cars[i].next_junction.x, cars[i].next_junction.y), cars[i].cur_road.vector)  '''# !!!!!!!!!!!!!correct this'''
+            p = projection(distance_to_node, cars[i].cur_road.vector)
             cars[i].x, cars[i].y = cars[i].x + p, cars[i].y + p
+
 
 def handle_collision(cars):
     # remove collisions between cars
@@ -52,7 +56,7 @@ def handle_collision(cars):
             while not (car_on_road):
                 # find random position for placing the car
                 x = random.uniform(car_reference.x - separation, car_reference.x + separation)
-                y = calc_y_on_circle(car_reference.x, car_reference.y, x)
+                y = calc_y_on_circle(car_reference.x, car_reference.y, x, separation)
                 car_on_road = on_road(x, y, car_on_road.cur_road.road_id)  # function provided by aravind
 
             # updating the velocity for 'car_to_move'
@@ -76,6 +80,7 @@ def update_velocity(cars):
             if dist((car1.x, car1.y), (car1.next_junction.x, car1.next_junction.y)) < exit_communication_radius:
                 car1.vx, car1.vy = sub((car1.next_junction.x, car1.next_junction.y), (car1.x, car1.y))
                 continue
+        # checking only for different cars
         for j in range(total_cars):
             car2 = cars[j]
             if i == j:
