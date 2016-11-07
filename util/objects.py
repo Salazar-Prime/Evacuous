@@ -68,15 +68,20 @@ class Car(pyglet.sprite.Sprite):
         super(Car, self).__init__(x=x, y=y, img=resources.car_image, *args, **kwargs)
         self.velocity = self.vx, self.vy = vx, vy
         self.car_id = car_id
+
+    def update_road(self, road):
         self.cur_road = road
-        if functions.dot( (vx, vy), road.vector ) > 0:
+        if functions.dot( (self.vx, self.vy), road.vector ) > 0:
             self.next_junction = road.end_junction
         else:
             self.next_junction = road.start_junction
 
+        self.update_road(road)
+
     def add_velocity(self, v):
         vx, vy = v
         self.velocity = self.vx, self.vy = self.vx + vx, self.vy + vy
+
 
 class ParameterSet(dict):
     def __init__(self,**kw):

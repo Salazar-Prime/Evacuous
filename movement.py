@@ -19,7 +19,8 @@ def global_assignment(params):
 def next_state(cars):
     #print "next_state"
     new_position(cars)
-    handle_collision(cars)
+    # disabling handle collision for now
+    #handle_collision(cars)
     update_velocity(cars)
     #print "frame over"
 
