@@ -68,6 +68,7 @@ class Car(pyglet.sprite.Sprite):
         super(Car, self).__init__(x=x, y=y, img=resources.car_image, *args, **kwargs)
         self.velocity = self.vx, self.vy = vx, vy
         self.car_id = car_id
+        self.update_road(road)
 
     def update_road(self, road):
         self.cur_road = road
@@ -75,8 +76,6 @@ class Car(pyglet.sprite.Sprite):
             self.next_junction = road.end_junction
         else:
             self.next_junction = road.start_junction
-
-        self.update_road(road)
 
     def add_velocity(self, v):
         vx, vy = v
