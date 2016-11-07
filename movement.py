@@ -35,8 +35,12 @@ def new_position(cars):
         if magnitude(distance_to_node) > magnitude(speed):  # distanceToNode > speed
             cars[i].x, cars[i].y = cars[i].x + speed[0], cars[i].y + speed[1]
         else:
-            p = projection(distance_to_node, cars[i].cur_road.vector)
-            cars[i].x, cars[i].y = cars[i].x + p[0], cars[i].y + p[1]
+            if cars[i].next_junction.is_exit: # car has reached exit
+                cars = cars[:i] + cars[i+1:]  # remove car from cars
+                cars[i].delete()  # delete car object and remove it from batch
+            else:
+                p = projection(distance_to_node, cars[i].cur_road.vector)
+                cars[i].x, cars[i].y = cars[i].x + p[0], cars[i].y + p[1]
 
 
 def handle_collision(cars):
