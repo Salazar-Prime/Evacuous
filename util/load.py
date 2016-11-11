@@ -3,9 +3,12 @@ from util.functions import *
 
 import random
 
-def init_random_cars(curmap, num_cars=10, batch=None, maxcarvel=5.0):
+def init_random_cars(curmap, num_cars=10, batch=None, maxcarvel=5.0, seed=None):
     carobjs = []
     roads = list(curmap.roads)
+    if seed:
+        random.seed(seed)
+        print random.random()
     for i in range(num_cars):
         r = random.choice(roads)
         dist = random.random()

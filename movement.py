@@ -21,8 +21,7 @@ def next_state(cars):
     new_position(cars)
     # disabling handle collision for now
     # handle_collision(cars)
-    update_velocity(ca
-    rs)
+    update_velocity(cars)
     #print "frame over"
 
 def new_position(cars):
@@ -30,7 +29,14 @@ def new_position(cars):
     #print "next_position"
     i = 0
     while i < len(cars):
-        speed = projection((cars[i].vx, cars[i].vy), cars[i].cur_road.vector)  # velocity component in direction of road
+        if cars[i].next_junction == cars[i].cur_road.start_junction:
+            modifier = -1
+        else:
+            modifier = 1
+        #speed = projection((cars[i].vx, cars[i].vy), scale(cars[i].cur_road.vector, modifier))  # velocity component in direction of road
+        #sv = sub((cars[i].next_junction.x, cars[i].next_junction.y), (cars[i].x, cars[i].y))
+        sv = scale(cars[i].cur_road.vector, modifier/cars[i].cur_road.length)
+        speed = scale(sv, magnitude((cars[i].vx, cars[i].vy))/magnitude(sv))
         distance_to_node = sub((cars[i].next_junction.x, cars[i].next_junction.y), (cars[i].x, cars[i].y))
 
         if magnitude(projection(distance_to_node, cars[i].cur_road.vector)) > magnitude(speed):  # distanceToNode > speed
@@ -38,9 +44,8 @@ def new_position(cars):
         else:
             if cars[i].next_junction.is_exit:
                 to_remove = cars.pop(i)
-                print "deleting car %d"%to_remove.car_id
+                #print "deleting car %d"%to_remove.car_id
                 to_remove.delete()
-                i -= 1
                 continue
             p = projection(distance_to_node, cars[i].cur_road.vector)
             cars[i].x, cars[i].y = cars[i].x + p[0], cars[i].y + p[1]
@@ -75,7 +80,7 @@ def at_junction(car):
                 max_value = component
 
     # updating car attributes
-    print "%d moving from %d to %d"%(car.car_id, car.cur_road.road_id, new_road.road_id)
+    #print "%d moving from %d to %d"%(car.car_id, car.cur_road.road_id, new_road.road_id)
     car.next_junction = new_node
     car.cur_road = new_road
 
