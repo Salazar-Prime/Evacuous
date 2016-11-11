@@ -11,7 +11,7 @@ simple_junctions = [Junction(100, 0, junction_id=0, is_exit=True),
                     Junction(800, 300, junction_id=4, is_exit=True),
                     Junction(300, 390, junction_id=5),
                     Junction(378, 0, junction_id=6, is_exit=True),
-                    Junction(278, 500, junction_id=7),
+                    Junction(278, 500, junction_id=7, is_exit=True),
                     Junction(330, 240, junction_id=8),
                     Junction(110, 100, junction_id=9)]
 # def add_junction(i,j): # adds a node between 2 existing nodes
@@ -28,10 +28,10 @@ for start, end in road_conn:
 
 curmap = Map(simple_junctions, simple_roads)
 carsbatch = pyglet.graphics.Batch()
-cars = load.init_random_cars(curmap, 10, carsbatch)
+cars = load.init_random_cars(curmap, 5, carsbatch)
 
 # initialize a parameter set
-params = ParameterSet(separation=5, communication_radius=50, scale_rule1=0.25, exit_communication_radius=0.1)
+params = ParameterSet(separation=5, communication_radius=10, scale_rule1=0.01, exit_communication_radius=10)
 global_assignment(params)
 
 """Setting up GUI"""
