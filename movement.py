@@ -28,19 +28,54 @@ def new_position(cars):
     # update the position of the car with the current
     #print "next_position"
     total_cars = len(cars)
-    for i in range(total_cars):
+    i = 0
+    while i < len(cars): # while loop since we are modifying cars
+        if cars[i].cur_node: # car is at intersection, has to decide which way to go
+            max_allign = 0
+            allign_road = None
+            for choice_road in cars[i].cur_node.incident_roads:
+                if choice_road.start_junction == cars[i].cur_node:
+                    modifier = 1
+                else:
+                    modifier = -1
+                p = modifier * projection((cars[i].vx, cars[i].vy), choice_road.vector)
+                if p > max_allign:
+                    max_allign = p
+                    allign_road = choice_road
+            print "{}{} changed roads from {} to {}".format(cars[i].car_id, cars[i].position,
+                                                            cars[i].cur_road.road_id, allign_road.road_id)
+            cars[i].update_road(allign_road)
+            cars[i].cur_node = None
+            # if allign_road.start_junction == cars[i].cur_node:
+            #     cars[i].next_junction = allign_road.end_junction
+            # else:
+            #     cars[i].next_junction = allign_road.start_junction
+
+        next_j = cars[i].next_junction
         speed = projection((cars[i].vx, cars[i].vy), cars[i].cur_road.vector)  # velocity component in direction of road
-        distance_to_node = sub((cars[i].next_junction.x, cars[i].next_junction.y), (cars[i].x, cars[i].y))
+        if next_j == cars[i].cur_road.end_junction:
+            speed = scale(speed, -1)
+        distance_to_node = sub((next_j.x, next_j.y), (cars[i].x, cars[i].y))
 
         if magnitude(distance_to_node) > magnitude(speed):  # distanceToNode > speed
             cars[i].x, cars[i].y = cars[i].x + speed[0], cars[i].y + speed[1]
+            i += 1
         else:
             if cars[i].next_junction.is_exit: # car has reached exit
-                cars = cars[:i] + cars[i+1:]  # remove car from cars
+                print "exit", i, cars[i].car_id, cars[i].position
+                print [c.car_id for c in cars]
                 cars[i].delete()  # delete car object and remove it from batch
-            else:
-                p = projection(distance_to_node, cars[i].cur_road.vector)
-                cars[i].x, cars[i].y = cars[i].x + p[0], cars[i].y + p[1]
+                cars = cars[:i] + cars[i+1:]  # remove car from cars
+                print [c.car_id for c in cars]
+            else: # car is near junction so move it to junction
+                #p = projection(distance_to_node, cars[i].cur_road.vector)
+                #cars[i].x, cars[i].y = cars[i].x + p[0], cars[i].y + p[1]
+                # place car at junction
+                print "proceed"
+                cars[i].x , cars[i].y = next_j.x, next_j.y
+                cars[i].cur_node = next_j
+                #cars[i].cur_road = None # clear cur_road, don't know which road to go
+                i += 1
 
 
 def handle_collision(cars):
@@ -98,7 +133,7 @@ def handle_collision(cars):
 
 def update_velocity(cars):
     # update the velocity vector of each car for next frame
-    print "update_velocity"
+    #print "update_velocity"
     total_cars = len(cars)
     for i in range(total_cars):
         car1 = cars[i]  # first car

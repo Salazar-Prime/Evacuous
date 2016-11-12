@@ -28,7 +28,7 @@ for start, end in road_conn:
 
 curmap = Map(simple_junctions, simple_roads)
 carsbatch = pyglet.graphics.Batch()
-cars = load.init_random_cars(curmap, 10, carsbatch)
+cars = load.init_random_cars(curmap, 3, carsbatch)
 
 # initialize a parameter set
 params = ParameterSet(separation=5, communication_radius=50, scale_rule1=0.25, exit_communication_radius=0.1)
