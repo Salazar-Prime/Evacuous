@@ -33,13 +33,20 @@ class Road(object):
         if not road_id:
             self.road_id = Road.auto_id
             Road.auto_id += 1
+        else:
+            self.road_id = road_id
         self.start_junction, self.end_junction = start_junction, end_junction
         self.width = width if width else Road.default_width
         (startx, starty), (endx, endy) = start_junction.location, end_junction.location
         self.vector = (endx - startx, endy - starty)
         self.length = functions.magnitude(self.vector)
         #self.slope = functions.slope(start_junction.location, end_junction.location)
-
+        lx, ly = functions.weight_add((start_junction.x, start_junction.y),
+                                      (end_junction.x, end_junction.y), 0.5, 0.5)
+        self.label = pyglet.text.Label(text=str(self.road_id), x=lx, y=ly,batch=kwargs['batch'],
+                                      anchor_x='center', anchor_y='center',
+                                      font_name='Times New Roman',
+                                      font_size=12, color=(255, 0, 0, 255))
 
 class Map(object):
     """Map object, stores all the roads and junctions in a map."""
@@ -68,7 +75,6 @@ class Car(pyglet.sprite.Sprite):
         super(Car, self).__init__(x=x, y=y, img=resources.car_image, *args, **kwargs)
         self.velocity = self.vx, self.vy = vx, vy
         self.car_id = car_id
-        self.cur_node = None
         self.update_road(road)
 
     def update_road(self, road):
