@@ -163,4 +163,6 @@ def update_velocity(cars):
                 velo_add_rule1[1] += car2.vy
 
             # updating velocity
-            car1.vx, car1.vy = add((car1.vx, car1.vy), scale(velo_add_rule1, scale_rule1))
+            # car1.vx, car1.vy = add((car1.vx, car1.vy), scale(velo_add_rule1, scale_rule1))
+            car1.add_velocity(scale(velo_add_rule1, scale_rule1))
+

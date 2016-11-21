@@ -10,10 +10,10 @@ simple_junctions = [Junction(100, 0, junction_id=0, is_exit=True),
                     Junction(0, 500, junction_id=2, is_exit=True),
                     Junction(500, 490, junction_id=3),
                     Junction(800, 300, junction_id=4, is_exit=True),
-                    Junction(300, 390, junction_id=5),
+                    Junction(400, 390, junction_id=5),
                     Junction(378, 0, junction_id=6, is_exit=True),
                     Junction(278, 500, junction_id=7, is_exit=True),
-                    Junction(330, 240, junction_id=8),
+                    Junction(380, 80, junction_id=8),
                     Junction(110, 100, junction_id=9)]
 # def add_junction(i,j): # adds a node between 2 existing nodes
 
@@ -30,17 +30,19 @@ for start, end in road_conn:
 
 curmap = Map(simple_junctions, simple_roads)
 carsbatch = pyglet.graphics.Batch()
-cars = load.init_random_cars(curmap, 25, carsbatch, seed=3.14)
+cars = load.init_random_cars(curmap, 100, carsbatch, seed=None)
 
 # initialize a parameter set
 params = ParameterSet(separation=5, communication_radius=10, scale_rule1=0.01, exit_communication_radius=10)
 global_assignment(params)
 
 """Setting up GUI"""
+GRAPHICS = True
 
 # creating window
-WINWIDTH, WINHEIGHT = 800, 600
-game_window = pyglet.window.Window(WINWIDTH, WINHEIGHT)
+if GRAPHICS:
+    WINWIDTH, WINHEIGHT = 800, 600
+    game_window = pyglet.window.Window(WINWIDTH, WINHEIGHT)
 
 # Drawing the labels
 #@game_window.event  # lets the Window instance know that on_draw() is an event handler
@@ -54,20 +56,22 @@ def on_draw():
     next_state(cars)
     roadsbatch.draw()
     for car in cars:
-        #print car.car_id,car.vx,car.vy
         pass
+        #print car.car_id,car.vx,car.vy
 
 def update(dt):
     global frame_counter
     frame_counter += 1
-    draw_map(curmap,game_window)
-    draw_cars(carsbatch)
+    if GRAPHICS:
+        draw_map(curmap,game_window)
+        draw_cars(carsbatch)
     if not cars:
         print "exiting"
         pyglet.app.exit()
     next_state(cars)
 
-pyglet.clock.schedule_interval(update, 1/1.0)
+
+pyglet.clock.schedule_interval(update, 1/1000.0)
 frame_counter = 0
 t = time()
 if __name__ == "__main__":

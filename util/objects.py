@@ -70,6 +70,7 @@ class Car(pyglet.sprite.Sprite):
     """Car object, stores cars location and velocity"""
 
     size = resources.car_image.width
+    MAX_VEL = 5.0
 
     def __init__(self, x, y, vx, vy, car_id, road, *args, **kwargs):
         super(Car, self).__init__(x=x, y=y, img=resources.car_image, *args, **kwargs)
@@ -86,7 +87,7 @@ class Car(pyglet.sprite.Sprite):
 
     def add_velocity(self, v):
         vx, vy = v
-        self.velocity = self.vx, self.vy = self.vx + vx, self.vy + vy
+        self.velocity = self.vx, self.vy = min(Car.MAX_VEL, self.vx + vx), min(Car.MAX_VEL, self.vy + vy)
 
 
 class ParameterSet(dict):

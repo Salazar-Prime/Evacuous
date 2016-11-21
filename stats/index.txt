@@ -1,0 +1,13 @@
+25 cars | seed:6.28
+50 cars | seed:varun
+100 cars | seed:topcoder
+
+
+Evacuous -> 25 cars (wg) | varun
+Evacuous1 -> 25 cars (wog*) | varun
+Evacuous6 -> 50 cars (wg) | ara_rose
+Evacuous7 -> 50 cars (wog*) | ara_rose
+Evacuous8 -> 50 cars (wog) | ara_rose
+
+
+* - window was being drawn with just black screen updates
