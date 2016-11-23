@@ -9,16 +9,30 @@ simple_junctions = [Junction(100, 0, junction_id=0, is_exit=True),
                     Junction(130, 310, junction_id=1),
                     Junction(0, 500, junction_id=2, is_exit=True),
                     Junction(500, 490, junction_id=3),
-                    Junction(800, 300, junction_id=4, is_exit=True),
-                    Junction(400, 390, junction_id=5),
+                    Junction(800, 300, junction_id=4),
+                    Junction(300, 390, junction_id=5),
                     Junction(378, 0, junction_id=6, is_exit=True),
-                    Junction(278, 500, junction_id=7, is_exit=True),
-                    Junction(380, 80, junction_id=8),
-                    Junction(110, 100, junction_id=9)]
+                    Junction(278, 500, junction_id=7),
+                    Junction(330, 100, junction_id=8),
+                    Junction(110, 100, junction_id=9),
+                    Junction(0, 150, junction_id=10, is_exit=True),
+                   	Junction(200, 700, junction_id=11, is_exit=True),
+                   	Junction(1000, 300, junction_id=12),
+                   	Junction(1300, 300, junction_id=13, is_exit=True),
+                   	Junction(800, 100, junction_id=14),
+                   	Junction(1000, 100, junction_id=15),
+                   	Junction(1000, 700, junction_id=16, is_exit=True),
+                   	Junction(500, 700, junction_id=17, is_exit=True),
+                   	Junction(500, 600, junction_id=18),
+                   	Junction(700, 600, junction_id=19),
+                   	Junction(900, 500, junction_id=20),
+                   	Junction(900, 300, junction_id=21)
+                   	]
 # def add_junction(i,j): # adds a node between 2 existing nodes
 
 
-road_conn = [(0, 9), (9, 1), (1, 2), (1, 5), (9, 8), (5, 8), (7, 5), (8, 6), (5, 3), (3, 4)]
+# road_conn = [(0, 9), (9, 1), (1, 2), (1, 5), (9, 8), (5, 8), (7, 5), (8, 6), (5, 3), (3, 4)]
+road_conn = [(0, 9), (9, 1), (1, 2), (1, 5), (9, 8), (5, 8), (7, 5), (8, 6), (5, 3), (3, 4), (9,10), (7,11), (4,21), (21,12), (12,13), (4,14), (14,8) , (12,15), (14,15),(12,16), (3, 18), (18,17), (18,19), (19,20), (20,21)]
 simple_roads = []
 roadsbatch = pyglet.graphics.Batch()
 for start, end in road_conn:
@@ -41,7 +55,7 @@ GRAPHICS = True
 
 # creating window
 if GRAPHICS:
-    WINWIDTH, WINHEIGHT = 800, 600
+    WINWIDTH, WINHEIGHT = 1300, 700
     game_window = pyglet.window.Window(WINWIDTH, WINHEIGHT)
 
 # Drawing the labels

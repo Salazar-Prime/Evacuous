@@ -10,4 +10,6 @@ Evacuous7 -> 50 cars (wog*) | ara_rose
 Evacuous8 -> 50 cars (wog) | ara_rose
 
 
-* - window was being drawn with just black screen updates
+wg - with graphics
+wog - without any graphics (not even the window)
+wog* - window was being drawn with just black screen updates
