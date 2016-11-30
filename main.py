@@ -44,21 +44,27 @@ for start, end in road_conn:
     simple_junctions[start].add_road(cur_road)
     simple_junctions[end].add_road(cur_road)
 
+"""Setting up GUI"""
+
+GRAPHICS = False
+number_of_cars = 1000
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        if sys.argv[1].isdigit():
+            number_of_cars = int(sys.argv[1])
+        if "-g" in sys.argv:
+            GRAPHICS = True
+
+
 curmap = Map(simple_junctions, simple_roads)
 carsbatch = pyglet.graphics.Batch()
-cars = load.init_random_cars(curmap, 1000, carsbatch, seed=123)
+cars = load.init_random_cars(curmap, number_of_cars, carsbatch, seed=123)
 
 # initialize a parameter set
 params = ParameterSet(separation=5, communication_radius=10, scale_rule1=0.01, exit_communication_radius=10)
 global_assignment(params)
 
-"""Setting up GUI"""
-
-GRAPHICS = False
-if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        if sys.argv[1] == "-g":
-            GRAPHICS = True
 
 # creating window
 if GRAPHICS:
