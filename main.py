@@ -5,6 +5,8 @@ import pyglet
 from movement import next_state, global_assignment
 from time import time
 
+import sys
+
 simple_junctions = [Junction(100, 0, junction_id=0, is_exit=True),
                     Junction(130, 310, junction_id=1),
                     Junction(0, 500, junction_id=2, is_exit=True),
@@ -44,14 +46,19 @@ for start, end in road_conn:
 
 curmap = Map(simple_junctions, simple_roads)
 carsbatch = pyglet.graphics.Batch()
-cars = load.init_random_cars(curmap, 100, carsbatch, seed=None)
+cars = load.init_random_cars(curmap, 1000, carsbatch, seed=123)
 
 # initialize a parameter set
 params = ParameterSet(separation=5, communication_radius=10, scale_rule1=0.01, exit_communication_radius=10)
 global_assignment(params)
 
 """Setting up GUI"""
-GRAPHICS = True
+
+GRAPHICS = False
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "-g":
+            GRAPHICS = True
 
 # creating window
 if GRAPHICS:
@@ -73,7 +80,9 @@ def on_draw():
         pass
         #print car.car_id,car.vx,car.vy
 
-def update(dt):
+def update(dt):    
+    if not GRAPHICS:
+        print "Cars left to exit:" + str(len(cars))
     global frame_counter
     frame_counter += 1
     if GRAPHICS:
