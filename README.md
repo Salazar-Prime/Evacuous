@@ -4,7 +4,7 @@ Note: The parallel implementation of [Project Evacuous](https://github.com/Salaz
 
 ## Authors
 * [Varun Aggarwal](https://github.com/Salazar-Prime/)
-* [Arvind Roshaan](https://github.com/Arvind-Roshaan-S)
+* [Arvind Roshaan](https://github.com/ararosh)
 * [P.R.Vaidyanathan](https://github.com/aditya95sriram)
 
 ## Dependencies
